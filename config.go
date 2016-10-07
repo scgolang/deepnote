@@ -22,7 +22,7 @@ func NewConfig() (Config, error) {
 	)
 	fs.StringVar(&config.LocalAddr, "local-addr", "127.0.0.1:0", "local UDP listening address")
 	fs.StringVar(&config.ScsynthAddr, "scsynth-addr", "127.0.0.1:57120", "scsynth UDP listening address")
-	fs.StringVar(&config.Synthdef, "synthdef", "THX3", "synthdef (format is THX<VERSION> where VERSION is one of the versions of the thx deep note from http://www.earslap.com/article/recreating-the-thx-deep-note.html)")
+	fs.StringVar(&config.Synthdef, "synthdef", DefaultSynthdef, "synthdef (format is THX<VERSION> where VERSION is one of the versions of the thx deep note from http://www.earslap.com/article/recreating-the-thx-deep-note.html)")
 	fs.IntVar(&config.NumVoices, "num-voices", 30, "number of voices")
 	fs.Float64Var(&config.FreqMin, "freq-min", 200, "lower bound used when generating random fundamental frequencies")
 	fs.Float64Var(&config.FreqMax, "freq-max", 400, "upper bound used when generating random fundamental frequencies")

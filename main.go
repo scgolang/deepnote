@@ -6,6 +6,10 @@ import (
 	"time"
 )
 
+const (
+	DefaultSynthdef = "THX4"
+)
+
 func main() {
 	// Seed the random number generator.
 	rand.Seed(time.Now().Unix())

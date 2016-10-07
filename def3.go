@@ -27,7 +27,7 @@ func (app *App) voicesTHX3() []sc.Input {
 		fundamentals = app.fundamentals()
 		finalPitches = app.finalPitches()
 		voices       = make([]sc.Input, app.Config.NumVoices)
-		sweepEnv     = app.sweepEnv()
+		sweepEnv     = app.sweepEnv3()
 		invSweep     = sweepEnv.MulAdd(sc.C(-1), sc.C(1))
 	)
 	for i := range voices {
@@ -63,8 +63,8 @@ func (app *App) finalPitches() []float32 {
 	return pitches
 }
 
-// sweepEnv returns the envelope used to sweep the pitches.
-func (app *App) sweepEnv() sc.Input {
+// sweepEnv3 returns the envelope used to sweep the pitches.
+func (app *App) sweepEnv3() sc.Input {
 	return sc.EnvGen{
 		Env: sc.Env{
 			Levels: []sc.Input{
