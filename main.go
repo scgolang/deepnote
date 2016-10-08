@@ -7,7 +7,7 @@ import (
 )
 
 const (
-	DefaultSynthdef = "THX4"
+	DefaultSynthdef = "THX6"
 )
 
 func main() {

@@ -28,6 +28,8 @@ func NewApp(config Config) (*App, error) {
 	app.loadTHX2()
 	app.loadTHX3()
 	app.loadTHX4()
+	app.loadTHX5()
+	app.loadTHX6()
 
 	// Initialize the client.
 	client, err := sc.NewClient("udp", config.LocalAddr, config.ScsynthAddr)
