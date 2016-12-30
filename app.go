@@ -5,6 +5,7 @@ import (
 	"sort"
 	"time"
 
+	"github.com/pkg/errors"
 	"github.com/scgolang/sc"
 )
 
@@ -15,6 +16,7 @@ type App struct {
 
 	Config Config
 
+	server    *sc.Server
 	synthdefs map[string]*sc.Synthdef
 }
 
@@ -31,6 +33,14 @@ func NewApp(config Config) (*App, error) {
 	app.loadTHX4()
 	app.loadTHX5()
 	app.loadTHX6()
+
+	// Start scsynth.
+	server := &sc.Server{Network: "udp", Port: 57120}
+	_, _, err := server.Start(5 * time.Second)
+	if err != nil {
+		return nil, errors.Wrap(err, "starting server")
+	}
+	app.server = server
 
 	// Initialize the client.
 	client, err := sc.NewClient("udp", config.LocalAddr, config.ScsynthAddr, 5*time.Second)
@@ -51,6 +61,8 @@ func NewApp(config Config) (*App, error) {
 
 // Run runs the deepnote app.
 func (app *App) Run() error {
+	defer func() { _ = app.server.Stop() }() // Best effort.
+
 	// Send the synthdef.
 	def := app.Config.Synthdef
 	if err := app.SendDef(app.synthdefs[def]); err != nil {
@@ -75,7 +87,7 @@ func (app *App) Run() error {
 	if _, err := app.Group.Synth(def, sid, action, ctls); err != nil {
 		return err
 	}
-	return nil
+	return errors.Wrap(app.server.Wait(), "waiting for scsynth")
 }
 
 // fundamentals returns the fundamental frequencies.
