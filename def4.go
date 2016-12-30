@@ -8,10 +8,12 @@ import (
 func (app *App) loadTHX4() {
 	const name = "THX4"
 
+	sig := sc.Mix(sc.AR, app.voicesTHX4())
+
 	app.synthdefs[name] = sc.NewSynthdef(name, func(params sc.Params) sc.Ugen {
 		return sc.Out{
 			Bus:      sc.C(0),
-			Channels: sc.Mix(sc.AR, app.voicesTHX4()),
+			Channels: sc.Multi(sig, sig),
 		}.Rate(sc.AR)
 	})
 }

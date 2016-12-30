@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"sort"
 
 	"github.com/scgolang/sc"
@@ -11,21 +10,23 @@ import (
 func (app *App) loadTHX6() {
 	const name = "THX6"
 
+	var (
+		outerEnv = app.outerEnv5()
+		ampEnv   = app.ampEnv6()
+		amp      = outerEnv.Add(sc.C(2)).Mul(ampEnv)
+	)
+	sig := sc.Limiter{
+		In: sc.BLowPass{
+			In:   sc.Mix(sc.AR, app.voicesTHX6()),
+			Freq: outerEnv.MulAdd(sc.C(18000), sc.C(2000)),
+			RQ:   sc.C(0.5),
+		}.Rate(sc.AR).Mul(amp),
+	}.Rate(sc.AR)
+
 	app.synthdefs[name] = sc.NewSynthdef(name, func(params sc.Params) sc.Ugen {
-		var (
-			outerEnv = app.outerEnv5()
-			ampEnv   = app.ampEnv6()
-			amp      = outerEnv.Add(sc.C(2)).Mul(ampEnv)
-		)
 		return sc.Out{
-			Bus: sc.C(0),
-			Channels: sc.Limiter{
-				In: sc.BLowPass{
-					In:   sc.Mix(sc.AR, app.voicesTHX6()),
-					Freq: outerEnv.MulAdd(sc.C(18000), sc.C(2000)),
-					RQ:   sc.C(0.5),
-				}.Rate(sc.AR).Mul(amp),
-			}.Rate(sc.AR),
+			Bus:      sc.C(0),
+			Channels: sc.Multi(sig, sig),
 		}.Rate(sc.AR)
 	})
 }
@@ -52,7 +53,6 @@ func (app *App) voicesTHX6() []sc.Input {
 			freq         = initialFreq.Mul(invSweep).Add(finalFreq.Mul(sweepEnv))
 			amp          = sc.C((1 - (1 / float64(i+1))) + 1.5)
 		)
-		fmt.Printf("amp: %f\n", float32(amp))
 		voices[i] = sc.Pan2{
 			In: sc.BLowPass{
 				In:   sc.Saw{Freq: freq}.Rate(sc.AR),

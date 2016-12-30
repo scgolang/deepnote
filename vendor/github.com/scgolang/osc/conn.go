@@ -8,7 +8,9 @@ import (
 )
 
 const (
-	readBufSize = 4096
+	// bufSize is the size of read and write buffers.
+	// SuperCollider synthdef messages can easily have as much as 64K of data.
+	bufSize = 65536
 )
 
 // Common errors.

@@ -1,5 +1,5 @@
-hash: 6ffe57740d561666fd6f300a44d41fe64e10b9c3d09c1082d3f9d0ba2f142b37
-updated: 2016-12-30T12:00:53.890048567-06:00
+hash: 6524c4f7c802fa3eecf7d72e9ab0c1e8452d7b77326c542063232587e04d8e21
+updated: 2016-12-30T12:16:10.201307475-06:00
 imports:
 - name: github.com/awalterschulze/gographviz
   version: 609eb77bad9f92f83854891fba4a0d03f075f5aa
@@ -12,7 +12,7 @@ imports:
 - name: github.com/pkg/errors
   version: 645ef00459ed84a119197bfb8d8205042c6df63d
 - name: github.com/scgolang/osc
-  version: 21c5315c581b7ca8d38d1dbf31ddb7d414eec81b
+  version: 876161d22dbc56517f1df8686a8ffc31daeab01f
 - name: github.com/scgolang/sc
   version: ec15435572cd66fa3c680d32362339894592d5b3
 testImports: []

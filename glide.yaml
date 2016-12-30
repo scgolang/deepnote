@@ -2,3 +2,5 @@ package: github.com/scgolang/deepnote
 import:
 - package: github.com/scgolang/sc
   version: ^0.1.0
+- package: github.com/scgolang/osc
+  version: ^0.9.7

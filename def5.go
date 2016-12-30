@@ -8,17 +8,17 @@ import (
 func (app *App) loadTHX5() {
 	const name = "THX5"
 
+	outerEnv := app.outerEnv5()
+	sig := sc.BLowPass{
+		In:   sc.Mix(sc.AR, app.voicesTHX5()),
+		Freq: outerEnv.MulAdd(sc.C(18000), sc.C(2000)),
+		RQ:   sc.C(0.5),
+	}.Rate(sc.AR)
+
 	app.synthdefs[name] = sc.NewSynthdef(name, func(params sc.Params) sc.Ugen {
-		var (
-			outerEnv = app.outerEnv5()
-		)
 		return sc.Out{
-			Bus: sc.C(0),
-			Channels: sc.BLowPass{
-				In:   sc.Mix(sc.AR, app.voicesTHX5()),
-				Freq: outerEnv.MulAdd(sc.C(18000), sc.C(2000)),
-				RQ:   sc.C(0.5),
-			}.Rate(sc.AR),
+			Bus:      sc.C(0),
+			Channels: sc.Multi(sig, sig),
 		}.Rate(sc.AR)
 	})
 }
