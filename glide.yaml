@@ -1,0 +1,4 @@
+package: github.com/scgolang/deepnote
+import:
+- package: github.com/scgolang/sc
+  version: ^0.1.0

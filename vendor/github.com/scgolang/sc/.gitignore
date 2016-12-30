@@ -1,0 +1,8 @@
+*~
+*.gosyndef
+*.svg
+*.dot
+*.log
+*.xml
+*.json
+core
