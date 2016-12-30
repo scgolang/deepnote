@@ -3,6 +3,7 @@ package main
 import (
 	"os"
 	"sort"
+	"time"
 
 	"github.com/scgolang/sc"
 )
@@ -32,7 +33,7 @@ func NewApp(config Config) (*App, error) {
 	app.loadTHX6()
 
 	// Initialize the client.
-	client, err := sc.NewClient("udp", config.LocalAddr, config.ScsynthAddr)
+	client, err := sc.NewClient("udp", config.LocalAddr, config.ScsynthAddr, 5*time.Second)
 	if err != nil {
 		return nil, err
 	}
